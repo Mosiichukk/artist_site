@@ -1,0 +1,353 @@
+{% load static %}
+
+
+
+
+body {
+    font-family: 'Raleway';
+    background-image: url('https://images.pexels.com/photos/7130497/pexels-photo-7130497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover; /* Зробить зображення по розміру всього екрану */
+    background-repeat: no-repeat;
+
+    margin: 0;
+    padding-left: 0px;
+
+}
+.forsong{
+     justify-content: center;
+    align-items: center;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.backround{padding-left: 20px; }
+
+h1 {
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Стилі для меню навігації */
+
+
+/* Стилі для таблиці з артистами */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: white;
+}
+
+/* Стилі для посилань */
+a {
+
+    color: rgb(0,0,0); !important;
+
+    text-decoration: none;
+
+}
+
+a:hover {
+    font-size: 110%;
+    /*text-decoration: underline;*/
+    color: green; !important;
+}
+p{
+    font-size: 30px;
+}
+.custom-card {
+    background-color: rgba(255, 255, 255, 0) !important;
+
+     border: none !important;
+}
+.custom-audio {
+  /* Задаємо розмір елементу */
+  width: 100% !important;
+  max-width: 400px; /* Наприклад, максимальна ширина 400px */
+
+  /* Задаємо колір фону і тексту */
+  background-color: #f3f3f3 !important;
+  color: #333 !important;
+
+  /* Задаємо обрамлення */
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+
+  /* Задаємо відступи та внутрішній відступ */
+  padding: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Стилізуємо кнопки керування */
+.custom-audio button {
+  background-color: #007bff !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 5px 10px !important;
+  margin: 0 5px !important;
+  cursor: pointer !important;
+}
+
+/* Стилізуємо програвання */
+.custom-audio progress {
+  width: 100% !important;
+  height: 10px !important;
+  margin-top: 10px !important;
+}
+
+/* Стилізуємо часову шкалу */
+.custom-audio input[type="range"] {
+  width: 100% !important;
+  margin-top: 10px !important;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;}
+
+.img_left{
+    float: left;
+}
+
+
+
+.music-list {
+    position: relative;
+    z-index: 2; /* Налаштування z-index вище ніж у plyr */
+    margin-top: 20px;
+    float: left;
+    border-right: 1px solid #ccc;
+    width: 20%;
+}
+.music-list h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.music-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.music-list li {
+    font-size: 16px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc; /* Лінія для розділення пісень */
+    transition: font-size 0.3s; /* Плавна зміна розміру тексту */
+    position: relative; /* Відносне позиціонування для налаштування елементів */
+    z-index: 1;
+}
+
+.music-list li:hover {
+    font-size: 18px; /* Збільшуємо розмір тексту при наведенні */
+}
+
+.music-list li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.music-list li a:hover {
+    color: #555;
+}
+
+
+.text-song{
+     width: 50%; /* Задати ширину блоку (можна змінити відповідно до вашого дизайну) */
+    margin: 0 auto; /* Зробити блок тексту посередині */
+    padding-left: 20px; /* Додати відступ зліва */
+}
+
+.music-player {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px -30px #000;
+  width: 150%;
+  overflow: hidden;
+  margin: 50px auto;
+}
+.music-player--banner {
+  /*background: url(http://thecatholiccatalogue.com/wp-content/uploads/2013/05/bob-marley-photo.jpg);*/
+  background-size: cover;
+  height: 150px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  position:relative;
+  z-index:0;
+}
+.music-player--main {
+  /* height: 100px; */
+}
+.music-player--progress {
+  position: relative;
+  overflow:auto;
+  padding: 5px;
+
+}
+.progress--progress-bar {
+  position: absolute;
+  width: 100%;
+  top: -1px;
+  left: 0;
+  -webkit-appearance: none;
+  height: 3px;
+  z-index:2
+}
+.progress--progress-bar::-webkit-progress-bar {
+    height: 4px;
+    background: transparent;
+ }
+.progress--progress-bar::-webkit-progress-value {
+  background: #ED5483;
+ }
+
+.progress--time {
+  color: #A9A9A9;
+  font-size: 10px;
+  float: left;
+}
+.progress--time__end {
+  float: right;
+}
+
+.music-player--controls {
+  padding: 0px 20px 20px;
+}
+.controls--play-button {
+  display:inline-block;
+  border-radius: 50%;
+  padding: 13px 15px;
+  background: #444;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+.controls--play-button:hover {
+  background: green;
+}
+.song-info {
+  display:inline-block;
+  position:relative;
+  top:5px;
+  margin-left:5px
+}
+.song-info--title {
+  font-size: 18px;
+  color: #8E8E8E;
+}
+.song-info--artist {
+  font-size: 12px;
+  color: #D8D8D8;
+}
+
+.controls--actions {
+  display:inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+  float:right;
+}
+.controls--actions i {
+    font-size: 20px;
+    color: #BCBECA;
+    cursor: pointer;
+}
+.controls--actions .actions--repeat {
+  position:relative;
+  top: 2px;
+}
+.controls--actions .actions--repeat:hover {
+  color: #444
+}
+.controls--actions .fa-backward, .controls--actions .fa-forward {
+  border-radius: 50%;
+  background: #BCBECA;
+  color: white;
+  font-size: 9px;
+  padding: 5px 4px 5px 7px;
+}
+.controls--actions .fa-backward:hover, .controls--actions .fa-forward:hover {
+  background: #444;
+}
+.controls--actions .fa-backward {
+  padding: 5px 6px 5px 5px;
+}
+
+
+
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.container_video {
+	margin: 50px auto;
+	max-width: 500px;
+}
+
+
+body {
+	background-color: #ddd;
+}
+
+.container {
+	margin: 75px auto;
+	max-width: 500px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.plyr {
+    margin-top: 50px; /* Відступ зверху, щоб змістити plyr */
+    position: relative;
+    z-index: 1; /* Налаштування z-index */
+    background-color: transparent !important;
+}
+
+.artist-info {
+    display: flex;
+    align-items: flex-start; /* Вирівнювання зображення та тексту по верхньому краю */
+    margin-bottom: 20px;
+}
+
+.artist-info img {
+    margin-right: 20px; /* Відступ між зображенням та текстом */
+}
+.artist-details h1,
+.artist-details p {
+  margin: 5px 0; /* Зменшення відступу між параграфами */
+}

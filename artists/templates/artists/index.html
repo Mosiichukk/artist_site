@@ -1,0 +1,96 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+ <form class="d-flex" action="{% url 'search' %}" method="get">
+        <input class="form-control me-2" type="text" placeholder="Search" name="q">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+ {% if user.is_authenticated %}
+        {% if has_artist %}
+
+          <div class="artist-info">
+    {% if artist.photo %}
+                <p><img src="{{ artist.photo.url }}" alt="{{ artist.name }}" style="width: 200px;"></p>
+            {% endif %}
+    <div class="artist-details">
+        <p>Ім'я: {{ artist.name }}</p>
+        <p>Жанр: {{ artist.genre }}</p>
+        <p>Країна: {{ artist.country }}</p>
+    </div>
+</div>
+            <hr>
+<h2>Треки:</h2>
+<div style="overflow: auto;">
+    {% for song in songs %}
+    <div style="display: inline-block; margin-right: 20px; position: relative;">
+        <a href="{% url 'song_detail' song.id %}">
+            {% if song.image_song and song.image_song.url %}
+                <img src="{{ song.image_song.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% else %}
+                <img src="https://images.freeimages.com/cme/images/istock/previews/3689/36895192-music-icon.jpg" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% endif %}
+        </a>
+        <a href="{% url 'add_video' song.id %}" style="position: absolute; top: 0; right: 0;">
+            <img src="https://cdn-icons-png.flaticon.com/512/12110/12110005.png" alt="Дія" style="width: 40px; height: 40px;">
+        </a>
+        <div>
+            <a href="{% url 'song_detail' song.id %}">{{ song.title }}</a>
+        </div>
+    </div>
+    {% endfor %}
+    <div style="display: inline-block; margin-right: 20px; position: relative;">
+        <a href="{% url 'add_song' %}">
+        <img src="https://cdn-icons-png.flaticon.com/512/44/44083.png" alt="Зображення пісні" style="width: 50px; height: 50px; margin-right: 10px;">
+        </a>
+
+    </div>
+<h2>Альбоми:</h2>
+       <div style="overflow: auto;">
+    {% for album in albums %}
+    <div style="display: inline-block; margin-right: 20px; position: relative;">
+        <a href="{% url 'album_detail' album.id 0 %}">
+            {% if  album.image_album and album.image_album.url %}
+                <img src="{{ album.image_album.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% else %}
+                <img src="https://images.freeimages.com/cme/images/istock/previews/3689/36895192-music-icon.jpg" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% endif %}
+        </a>
+        <div>
+            <a href="{% url 'album_detail' album.id 1 %}">{{ album.title }}</a>
+        </div>
+    </div>
+           {%endfor%}
+           <div style="display: inline-block; margin-right: 20px; position: relative;">
+        <a href="{% url 'add_album' %}">
+        <img src="https://cdn-icons-png.flaticon.com/512/6324/6324880.png" alt="Зображення пісні" style="width: 50px; height: 50px; margin-right: 10px;">
+        </a>
+           </div></div>
+    <h2>Відеокліпи:</h2>
+     {% for video in videos %}
+    <div style="display: inline-block; margin-right: 20px; position: relative;">
+        <a href="{% url 'video_detail' video.id %}">
+            {% if video.image_video and video.image_song.url %}
+                <img src="{{ video.image_video.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% else %}
+                <img src="https://images.freeimages.com/cme/images/istock/previews/3689/36895192-music-icon.jpg" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% endif %}
+        </a>
+
+        <div>
+            <a href="{% url 'video_detail' video.id %}">{{ video.title }}</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+        {% else %}
+            <h2><a href="{% url 'add_artist' %}">Створити акаунт артиста</a></h2>
+        {% endif %}
+    {% else %}
+        <p>Будь ласка, <a href="{% url 'login' %}">увійдіть</a>, щоб створити акаунт артиста.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+<form class="d-flex" action="{% url 'search' %}" method="get">
+        <input class="form-control me-2" type="text" placeholder="{{ title }}" name="q">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+<h1>Результати пошуку за запросом: {{ title }}</h1>
+<h2>Пісні</h2>
+ {% for song in songs %}
+          <p><a href="{% url 'song_detail' song.id %}">{{song.artist}} - {{ song.title }}</a></p>
+        {% endfor %}
+<h2>Артисти</h2>
+  {%for a in artists %}
+    <p><a href="{% url 'artist_detail' a.id %}">{{ a.name }}</a></p>
+
+  {%endfor%}
+ </div></div></div>
+
+{% endblock %}

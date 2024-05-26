@@ -1,0 +1,22 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">
+       <p> <span style="color: red;">{{error_message}}</span></p>
+    </div>
+    {% for f in form %}
+    <p> <label for="{{f.id_for_label}}">{{f.label}}</label> {{f}}</p>
+    <div class="form-error">{{f.error}}</div>
+    {% endfor %}
+<!--    {{ form.as_p }}-->
+
+    <p><button type="submit">  Завантажити  </button></p>
+</form>
+<!--  <p> <label for="id_1">Текст: </label> <input type="text" for="id_1" name="name_artist">-->
+<!--   <p> <label for="id_2" >Текст: </label> <input type="text" for="id_2" name="name_song">-->
+<!--   <p> <label for="id_3">Текст: </label> <input type="text" for="id_3" name="lyric">-->
+{% endblock %}

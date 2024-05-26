@@ -1,0 +1,46 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+
+
+
+
+<div class="text-song">
+
+ <h1 >{{ song.title }}</h1>
+
+    <h3 >{{ video.artist }}</h3>
+
+    <div class="container_video">
+
+	<video controls crossorigin playsinline poster="{{video.artist.photo.url}}">
+		 <source src="{{video.video_file.url}}" type="video/mp4" size="576">
+			<source src="{{video.video_file.url}}" type="video/mp4" size="720">
+			<source src="{{video.video_file.url}}" type="video/mp4" size="1080">
+
+			<!-- Caption files -->
+			<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
+					default>
+			<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
+			<!-- Fallback for browsers that don't support the <video> element -->
+			<a href="{{video.video_file.url}}" download>Download</a>
+	</video>
+</div>
+
+
+</div>
+<!-- Tracks used in this music/audio player application are free to use. I downloaded them from Soundcloud and NCS websites. I am not the owner of these tracks. -->
+
+
+
+<script type="text/javascript">
+    const player = new Plyr('video', {captions: {active: true}});
+
+// Expose player so it can be used from the console
+window.player = player;
+</script>
+
+
+
+
+{% endblock %}

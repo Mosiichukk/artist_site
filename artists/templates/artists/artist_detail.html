@@ -1,0 +1,69 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+
+<div class="artist-info">
+{% if artist.photo %}
+<p><img src={{artist.photo.url}} height="300"> </p>
+{% endif %}
+
+
+<div class="artist-details">
+     <h1>{{ title }}</h1>
+
+    <p>Жанр: {{artist.genre}}</p>
+
+      <p>Звідки: {{artist.country}}</p>
+</div></div>
+    <hr>
+    <h3>Треки:</h3>
+
+    <div style="overflow: auto;">
+    {% for song in songs %}
+    <div style="display: inline-block; margin-right: 20px;">
+        <a href="{% url 'song_detail' song.id %}">
+            {% if  song.image_song and song.image_song.url %}
+                <img src="{{ song.image_song.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% else %}
+            <div class="img_left">
+                <img src="https://images.freeimages.com/cme/images/istock/previews/3689/36895192-music-icon.jpg" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            </div>{% endif %}
+        </a>
+        <div>
+            <a href="{% url 'song_detail' song.id %}">{{ song.title }}</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+       <h3>Альбоми:</h3>
+       <div style="overflow: auto;">
+    {% for album in albums %}
+    <div style="display: inline-block; margin-right: 20px;">
+        <a href="{% url 'album_detail' album.id 0 %}">
+            {% if  album.image_album and album.image_album.url %}
+                <img src="{{ album.image_album.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% else %}
+                <img src="https://images.freeimages.com/cme/images/istock/previews/3689/36895192-music-icon.jpg" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            {% endif %}
+        </a>
+        <div>
+            <a href="{% url 'album_detail' album.id 1 %}">{{ album.title }}</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+       <h3>Відеокліпи: </h3>
+    <ul>
+        {% for video in videos %}
+        <a href="{% url 'video_detail' video.id %}">
+                <img src="{{ video.song.image_song.url }}" alt="Зображення пісні" style="width: 100px; height: 100px; margin-right: 10px;">
+            <li>{{ video.title }}</li></a>
+        {% endfor %}
+    </ul>
+  </li>
+
+</ul>
+
+{% endblock %}

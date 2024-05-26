@@ -1,0 +1,187 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+<div class="music-list">
+            <!-- Блок зі списком пісень -->
+            <h3>Список пісень</h3>
+            <ul>
+                {% for s in songs %}
+                    <li><img src="{{ s.image_song.url }}" alt="" style="width: 50px; height: 50px; margin-right: 10px;"><a href="{% url 'song_detail' s.id %}">{{s.artist.name}} - {{ s.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+  <div class="music-player--banner">
+                    <img id="spinImage" class="img-circle " src="{{ song.image_song.url }}" alt="" style="height: 100px;">
+                    <p>{{artist.name}} - {{ song.title }}</p>
+                </div>
+<audio id="player" controls>
+
+    <source src="{{ audio.audio_file.url }}" type="audio/mp3" />
+    Ваш браузер не підтримує відтворення аудіо.
+</audio>
+
+<script src="https://cdn.plyr.io/3.6.12/plyr.polyfilled.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+        const player = new Plyr('#player');
+        const spinImage = document.getElementById('spinImage');
+
+        player.on('play', () => {
+            spinImage.classList.add('spin');
+        });
+
+        player.on('pause', () => {
+            spinImage.classList.remove('spin');
+        });
+
+        player.on('ended', () => {
+            spinImage.classList.remove('spin');
+        });
+    });
+</script>
+
+<!--<div class="container">-->
+<!--    <div class="row">-->
+
+<!--        <div class="col-md-4 col-md-offset-4">-->
+<!--            <div class="music-player">-->
+<!--                &lt;!&ndash; Зображення та плеєр &ndash;&gt;-->
+<!--                <div class="music-player&#45;&#45;banner">-->
+<!--                    <img class="img-circle spin" src="{{ song.image_song.url }}" alt="" style="height: 100px;">-->
+<!--                    <p>{{artist.name}} - {{ song.title }}</p>-->
+<!--                </div>-->
+<!--                <div class="music-player&#45;&#45;main">-->
+<!--                    <div id="jquery_jplayer_1" class="jp-jplayer"></div>-->
+<!--                    <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">-->
+<!--                        &lt;!&ndash; Ваш плеєр тут &ndash;&gt;-->
+<!--                         <div class="jp-type-playlist">-->
+<!--                    <div class="jp-gui jp-interface">-->
+<!--                        <div class="jp-controls">-->
+<!--                            <button class="jp-play" role="button" tabindex="0">play</button>-->
+<!--                        </div>-->
+<!--                        <div class="jp-progress">-->
+<!--                            <div class="jp-seek-bar">-->
+<!--                                <div class="jp-play-bar"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="jp-volume-controls">-->
+<!--                            <button class="jp-mute" role="button" tabindex="0">mute</button>-->
+<!--                            <button class="jp-volume-max" role="button" tabindex="0">max volume</button>-->
+<!--                            <div class="jp-volume-bar">-->
+<!--                                <div class="jp-volume-bar-value"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="jp-time-holder">-->
+<!--                            <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>-->
+<!--                            <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                    <div class="jp-playlist">-->
+<!--                        <ul>-->
+<!--                            <li>&nbsp;</li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="jp-no-solution">-->
+<!--                        <span>Update Required</span>-->
+<!--                        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+{% block scripts %}
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+
+     var song = $("#jquery_jplayer_1")[0]; // Отримання елементу аудіоплеєра
+
+    // Додавання обробників подій для плеєра
+    $("#jquery_jplayer_1").on($.jPlayer.event.play, function(event) {
+        $(".img-circle").addClass("spin"); // Додавання класу обертання при відтворенні пісні
+    });
+
+    $("#jquery_jplayer_1").on($.jPlayer.event.pause, function(event) {
+        $(".img-circle").removeClass("spin"); // Видалення класу обертання при паузі пісні
+    });
+
+    $("#jquery_jplayer_1").on($.jPlayer.event.ended, function(event) {
+        $(".img-circle").removeClass("spin"); // Видалення класу обертання після завершення відтворення
+    });
+
+    // Виконайте обертання тільки якщо плеєр має клас "jp-state-playing"
+    $("#jquery_jplayer_1").on($.jPlayer.event.timeupdate, function(event) {
+        if (!song.paused) {
+            $(".img-circle").addClass("spin"); // Додавання класу обертання, якщо плеєр відтворюється
+        } else {
+            $(".img-circle").removeClass("spin"); // Видалення класу обертання, якщо плеєр не відтворюється
+        }
+    });
+
+const player = new Plyr('audio', {});
+
+// Expose player so it can be used from the console
+window.player = player;
+
+ new jPlayerPlaylist({
+ jPlayer: "#jquery_jplayer_1",
+ cssSelectorAncestor: "#jp_container_1"
+ }, [
+
+  {
+            title: "{{ song.title }}",
+            mp3: "{{ audio.audio_file.url }}"
+        },
+
+   // {% for s in playlist %}
+   //      {
+   //          title: "{{ s.title|escapejs }}",
+   //          mp3: "{{ s.mp3|escapejs }}"
+   //      },
+   //      {% endfor %}
+
+ //    {
+ // title:"{{ song.title }}",
+ // mp3:"{{audio.audio_file.url}}"
+ // }
+
+], {
+ swfPath: "../../dist/jplayer",
+ supplied: "oga, mp3",
+ wmode: "window",
+ useStateClassSkin: true,
+ autoBlur: false,
+ smoothPlayBar: true,
+ keyEnabled: true
+
+
+ });
+});
+//]]>
+</script>
+{% endblock %}
+
+
+<div class="text-song">
+
+ <h1 >{{ song.title }}</h1>
+
+    <h3 >{{ song.artist }}</h3>
+
+    <p >{{ lyric_text.lyric_text|linebreaks }}</p>
+</div>
+<!-- Tracks used in this music/audio player application are free to use. I downloaded them from Soundcloud and NCS websites. I am not the owner of these tracks. -->
+
+
+
+
+
+
+
+
+{% endblock %}

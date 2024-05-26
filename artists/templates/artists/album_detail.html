@@ -1,0 +1,130 @@
+{% extends 'artists/base.html' %}
+
+{% block content %}
+<div class="music-list">
+    <h3>{{ album.title }}</h3>
+    <ul>
+        {% for s in songs %}
+            <li>
+                <img src="{{ album.image_album.url }}" alt="" style="width: 50px; height: 50px; margin-right: 10px;">
+                <a href="{% url 'album_detail' album.id forloop.counter0 %}">{{ s.artist.name }} - {{ s.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="music-player--banner">
+    <img id="spinImage" class="img-circle" src="{{ album.image_album.url }}" alt="" style="height: 100px;">
+    {% for song in songs %}
+        {% if forloop.counter0 == num_song %}
+            <p>{{ album.artist.name }} - {{ song.title }}</p>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<audio id="player" controls>
+    {% for audio in audios %}
+        {% if forloop.counter0 == num_song %}
+            <source src="{{ audio.audio_file.url }}" type="audio/mp3" />
+        {% endif %}
+    {% endfor %}
+    Ваш браузер не підтримує відтворення аудіо.
+</audio>
+
+<script src="https://cdn.plyr.io/3.6.12/plyr.polyfilled.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const player = new Plyr('#player');
+        const spinImage = document.getElementById('spinImage');
+
+        player.on('play', () => {
+            spinImage.classList.add('spin');
+        });
+
+        player.on('pause', () => {
+            spinImage.classList.remove('spin');
+        });
+
+        player.on('ended', () => {
+            spinImage.classList.remove('spin');
+        });
+    });
+</script>
+
+{% block scripts %}
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+    var song = $("#jquery_jplayer_1")[0]; // Отримання елементу аудіоплеєра
+
+    // Додавання обробників подій для плеєра
+    $("#jquery_jplayer_1").on($.jPlayer.event.play, function(event) {
+        $(".img-circle").addClass("spin"); // Додавання класу обертання при відтворенні пісні
+    });
+
+    $("#jquery_jplayer_1").on($.jPlayer.event.pause, function(event) {
+        $(".img-circle").removeClass("spin"); // Видалення класу обертання при паузі пісні
+    });
+
+    $("#jquery_jplayer_1").on($.jPlayer.event.ended, function(event) {
+        $(".img-circle").removeClass("spin"); // Видалення класу обертання після завершення відтворення
+    });
+
+    // Виконайте обертання тільки якщо плеєр має клас "jp-state-playing"
+    $("#jquery_jplayer_1").on($.jPlayer.event.timeupdate, function(event) {
+        if (!song.paused) {
+            $(".img-circle").addClass("spin"); // Додавання класу обертання, якщо плеєр відтворюється
+        } else {
+            $(".img-circle").removeClass("spin"); // Видалення класу обертання, якщо плеєр не відтворюється
+        }
+    });
+
+    new jPlayerPlaylist({
+        jPlayer: "#jquery_jplayer_1",
+        cssSelectorAncestor: "#jp_container_1"
+    }, [
+        {
+            title: "{{ album.title }}",
+            {% for audio in audios %}
+                {% if forloop.counter0 == num_song %}
+                    mp3: "{{ audio.audio_file.url }}"
+                {% endif %}
+            {% endfor %}
+        }
+    ], {
+        swfPath: "../../dist/jplayer",
+        supplied: "oga, mp3",
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true
+    });
+});
+//]]>
+</script>
+{% endblock %}
+
+<div class="text-song">
+    <h1>{{ song.title }}</h1>
+    <h3>{{ song.artist }}</h3>
+    <p>{{ lyric_text.lyric_text|linebreaks }}</p>
+</div>
+<div class="text-song">
+<h1>{{ title }}</h1>
+<h2><a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a></h2>
+
+<p>{{ album.release_year }}</p>
+
+<hr>
+
+<h3>Текст:</h3>
+<p>
+    {% for lyric in lyrics %}
+        {% if forloop.counter0 == num_song %}
+            {{ lyric.lyric_text|linebreaks }}
+        {% endif %}
+    {% endfor %}
+</p>
+</div>
+{% endblock %}

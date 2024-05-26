@@ -1,0 +1,33 @@
+{% extends 'artists/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 align="center">{{ title }}</h1>
+
+ <div class="card custom-card">
+<div class="container-fluid" style="width:90%">
+<div class="row">
+  {%for a in artists %}
+
+
+<div class="card border-0" style="width:30%">
+
+<!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image">-->
+<a href="{% url 'artist_detail' a.id %}">
+<img src="{{a.photo.url}}" class="card-img-top" alt="...">
+</a>
+  <div class="card-body">
+
+
+    <h4 class="card-title"><a href="{% url 'artist_detail' a.id %}">{{ a.name }}</a></h4>
+    <p class="card-text">Жанр: {{a.genre}}</p>
+    <p>Звідки: {{a.country}}</p>
+  </div>
+</div>
+
+
+
+  {%endfor%}
+ </div></div></div>
+
+{% endblock %}
